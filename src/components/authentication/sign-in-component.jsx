@@ -1,34 +1,29 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { signInWithGooglePopUp, signOutUser } from "../../utils/firebase/firebase";
+import { UserContext } from "../../context/user.context";
 
 
 const SignInForm = () => {
-  const [emailVerified, setEmailVerified] = useState(false);
+  const { userVerified } = useContext(UserContext)
 
   const onClickHandler = async () => {
     try {
-      const result = await signInWithGooglePopUp();
-      setEmailVerified(result.user.emailVerified);
-      console.log(result.user);
+      await signInWithGooglePopUp();
     } catch (err) {
       console.log({ err });
     }
   };
 
-  const signOutHandler = async () => {
-    await signOutUser();
-    setEmailVerified(false);
-  };
 
   return (
     <div className="">
-      {emailVerified ? (
-        <button className="btn btn-active btn-primary" onClick={signOutHandler}>
+      {userVerified ? (
+        <button className="btn btn-active btn-primary min-w-[100px]" onClick={signOutUser}>
           Sign Out
         </button>
       ) : (
         <button
-          className="btn btn-active btn-secondary"
+          className="btn btn-active btn-secondary min-w-[100px]"
           onClick={onClickHandler}
         >
           Sign In

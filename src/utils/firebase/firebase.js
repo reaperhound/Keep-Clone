@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import 'firebase/firestore'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-import { GoogleAuthProvider, getAuth, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, getAuth, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
 
@@ -43,7 +43,11 @@ export const signInWithGooglePopUp = async () => {
 
 export const signOutUser = async () => {
   await signOut(auth);
-  return 'success'
+}
+
+//Auth State Observer
+export const onAuthStateChangedHandler = (callback) => {
+  return onAuthStateChanged(auth, callback);
 }
 
 
@@ -53,9 +57,9 @@ const db = getFirestore(app);
 
 export const writeData = async (data) => {
   const {title, content} = data
-  
+  const { uid } = auth.currentUser;
   try{
-    const response = await setDoc(doc(db, "Notes",title), {
+    const response = await setDoc(doc(db, uid ,title), {
       title: title,
       content: content,
     })
