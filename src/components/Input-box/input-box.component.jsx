@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { writeDataHandler, getDataHandler } from "../../utils/firebase/firebase";
 import { FormProvider, useForm } from "react-hook-form";
+import { NotesContext } from "../../context/notes.context";
 
 
 
 const InputBox = ({ ...otherProps }) => {
   const { register, handleSubmit } = useForm();
   const [titleVisible, setTitleVisible] = useState(false);
+  const { notes ,setNotes } = useContext(NotesContext)
 
   function formSubmit(e){
     e.preventDefault()
@@ -26,7 +28,9 @@ const InputBox = ({ ...otherProps }) => {
 
   const output = async () => {
     const data = await getDataHandler();
-    console.log(data);
+    // console.log(data);
+    // setNotes(data)
+    // console.log("Input",notes);
   }
 
   return (
@@ -65,7 +69,7 @@ const InputBox = ({ ...otherProps }) => {
             <button onClick={handleSubmit(onBtnSubmitHandler)} className="btn btn-primary mt-4">Add</button>
           </div>
       </form>
-      <button className="btn btn-primary mt-4" onClick={output} >get Data</button>
+      <button className="btn btn-secondary mt-4" onClick={output} >get Data</button>
     </>
   );
 };

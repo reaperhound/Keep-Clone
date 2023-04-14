@@ -76,7 +76,7 @@ export async function writeDataHandler(data){
 }
 
 export async function getDataHandler(){
-  let uid = auth.currentUser.uid
+  let uid = auth.currentUser.uid;
 
   const colRef = collection(db, uid);
   const colSnap = await getDocs(colRef);
