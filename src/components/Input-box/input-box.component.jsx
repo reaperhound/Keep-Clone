@@ -1,45 +1,49 @@
 import React, { useState } from "react";
-import { writeData } from "../../utils/firebase/firebase";
+import { writeDataHandler } from "../../utils/firebase/firebase";
+import { FormProvider, useForm } from "react-hook-form";
 
-const defaultVal = {
-  title: "nn",
-  content: "",
-};
+
 
 const InputBox = ({ ...otherProps }) => {
-  const [content, setContent] = useState(defaultVal);
+  const { register, handleSubmit } = useForm();
+  const [focus, setFocus] = useState(false)
 
-  const handleChange = (event) => {
-    setContent({ ...content, content: event.target.value });
-  };
-
-  const onClickHandler = async() => {
-    const response = await writeData(content);
-    console.log(`from input`, response);
+  function formSubmit(e){
+    e.preventDefault()
   }
 
-  const [focus, setFocus] = useState(false)
+  const onBtnSubmitHandler = (data) => {
+    console.log(data);
+    writeDataHandler(data);
+  }
 
   return (
     <>
-      <div className="w-[100%] flex flex-col justify-center items-center mt-[10%]">
-        <input
-          type="text"
-          placeholder="Type here"
-          className="input input-bordered w-full max-w-xs mr-3"
-          value={content.content}
-          onChange={handleChange}
-          onClick={()=> setFocus(true)}
-          // onBlur={() => setFocus(false)}
-        />
-        {
-          focus ? 
-          <textarea 
-          className="textarea textarea-bordered w-[320px] mr-3 resize-none " placeholder="Bio"          ></textarea>
-          : null
-        }
-        <button onClick={onClickHandler} className="btn btn-primary mt-4">Button</button>
-      </div>
+      <form onSubmit={formSubmit}>
+        <div className="w-[100%] flex flex-col justify-center items-center mt-[10%]">
+            <input
+              className="input input-bordered w-full max-w-xs mr-3"
+              placeholder="Title..."
+              {
+                ...register("title")
+              }
+              onClick={()=> setFocus(true)}
+              // onBlur={() => setFocus(false)}
+            />
+            {
+              focus ? 
+              <textarea
+                placeholder="Content..."
+                className="textarea textarea-bordered w-[320px] mr-3 resize-none "
+                {
+                  ...register("content")
+                }
+              />
+              : null
+            }
+            <button onClick={handleSubmit(onBtnSubmitHandler)} className="btn btn-primary mt-4">Button</button>
+          </div>
+      </form>
     </>
   );
 };

@@ -5,7 +5,7 @@ import 'firebase/firestore'
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { GoogleAuthProvider, getAuth, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 
 
 // Your web app's Firebase configuration
@@ -55,18 +55,17 @@ export const onAuthStateChangedHandler = (callback) => {
 
 const db = getFirestore(app);
 
-export const writeData = async (data) => {
-  const {title, content} = data
-  const { uid } = auth.currentUser;
+export async function writeDataHandler(data){
+  let uid = auth.currentUser.uid
+
   try{
-    const response = await setDoc(doc(db, uid ,title), {
-      title: title,
-      content: content,
+    const docRef = await addDoc(collection(db, uid), {
+      title : data.title,
+      content : data.content,
+      date : Date()
     })
-  
-    return response;
-  } catch(error){
-    console.log(error);
-    return error;
+    console.log("Document created with docRef "+ docRef);
+  } catch(error) {
+    console.log("Error adding document, "+ error);
   }
 }
