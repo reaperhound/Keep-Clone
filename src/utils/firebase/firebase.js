@@ -4,7 +4,7 @@ import 'firebase/firestore'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { GoogleAuthProvider, getAuth, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getDocs, getFirestore, doc } from "firebase/firestore";
 import { collection, addDoc } from "firebase/firestore";
 
 
@@ -58,6 +58,11 @@ const db = getFirestore(app);
 export async function writeDataHandler(data){
   let uid = auth.currentUser.uid
 
+  if(data.title === "" || data.content === "") {
+    console.log("Please fill in the fields")
+    return;
+  }
+
   try{
     const docRef = await addDoc(collection(db, uid), {
       title : data.title,
@@ -67,5 +72,30 @@ export async function writeDataHandler(data){
     console.log("Document created with docRef "+ docRef);
   } catch(error) {
     console.log("Error adding document, "+ error);
+  }
+}
+
+export async function getDataHandler(){
+  let uid = auth.currentUser.uid
+
+  const colRef = collection(db, uid);
+  const colSnap = await getDocs(colRef);
+  const data = []
+
+  if(!colSnap.empty){
+      colSnap.forEach((element) => {
+        // console.log(element._document.data.value.mapValue.fields);
+        let content = element._document.data.value.mapValue.fields.content.stringValue;
+        let title = element._document.data.value.mapValue.fields.title.stringValue
+        let date = element._document.data.value.mapValue.fields.date.stringValue
+        data.push({
+          content,
+          title,
+          date
+        })
+      })
+     return data;
+  } else {
+    console.log(`No data`);
   }
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { writeDataHandler } from "../../utils/firebase/firebase";
+import { writeDataHandler, getDataHandler } from "../../utils/firebase/firebase";
 import { FormProvider, useForm } from "react-hook-form";
 
 
@@ -24,6 +24,11 @@ const InputBox = ({ ...otherProps }) => {
     }
   };
 
+  const output = async () => {
+    const data = await getDataHandler();
+    console.log(data);
+  }
+
   return (
     <>
       <form onSubmit={formSubmit} onBlur={handleFocusOut}>
@@ -34,7 +39,9 @@ const InputBox = ({ ...otherProps }) => {
               className="input input-bordered w-full max-w-xs mr-3"
               placeholder="Title..."
               {
-                ...register("title")
+                ...register("title",{
+                  required : true,
+                })
               }
             />
             }
@@ -48,13 +55,17 @@ const InputBox = ({ ...otherProps }) => {
                   }
                 `}
               {
-                ...register("content")
+                ...register("content", {
+                  required: true,
+                  maxLength: 200,
+                })
               }
               onFocus={() => setTitleVisible(true)}
             />
-            <button onClick={handleSubmit(onBtnSubmitHandler)} className="btn btn-primary mt-4">Button</button>
+            <button onClick={handleSubmit(onBtnSubmitHandler)} className="btn btn-primary mt-4">Add</button>
           </div>
       </form>
+      <button className="btn btn-primary mt-4" onClick={output} >get Data</button>
     </>
   );
 };
