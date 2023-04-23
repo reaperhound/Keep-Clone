@@ -1,16 +1,12 @@
 import { useContext } from "react";
 import Note from "../Note/Note";
 import { NotesContext } from "../../context/notes.context";
-import { ClimbingBoxLoader } from "react-spinners";
 import {ConfigProvider, Space, Spin} from "antd"
 
 export default function NoteList() {
   const { notes, popUp } = useContext(NotesContext);
   console.log(notes);
 
-  const noDataHandler = () => {
-    return 'hidden'
-  }
 
   return (
     <div 
@@ -36,9 +32,9 @@ export default function NoteList() {
           {
             notes.map((note, index) => {
               return (
-                <>
-                <Note key={index} {...note} />
-                </>
+                <div key={index}>
+                <Note {...note} />
+                </div>
               )
             })
           }

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { writeDataHandler, getDataHandler } from "../../utils/firebase/firebase";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { NotesContext } from "../../context/notes.context";
 
 
@@ -68,7 +68,6 @@ const InputBox = ({ ...otherProps }) => {
             <button onClick={handleSubmit(onBtnSubmitHandler)} className="btn btn-primary mt-4">Add</button>
           </div>
       </form>
-      <button className="btn btn-secondary mt-4" onClick={output} >get Data</button>
     </>
   );
 };

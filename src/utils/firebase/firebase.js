@@ -4,7 +4,7 @@ import 'firebase/firestore'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { GoogleAuthProvider, getAuth, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
-import { getDocs, getFirestore, doc } from "firebase/firestore";
+import { getDocs, getFirestore, doc, updateDoc } from "firebase/firestore";
 import { collection, addDoc } from "firebase/firestore";
 
 
@@ -88,10 +88,12 @@ export async function getDataHandler(){
   if(!colSnap.empty){
       colSnap.forEach((element) => {
         // console.log(element._document.data.value.mapValue.fields);
+        let docIdArray = element._key.path.segments;
         let content = element._document.data.value.mapValue.fields.content.stringValue;
         let title = element._document.data.value.mapValue.fields.title.stringValue
         let date = element._document.data.value.mapValue.fields.date.stringValue
         data.push({
+          docIdArray,
           content,
           title,
           date
@@ -100,5 +102,23 @@ export async function getDataHandler(){
      return data;
   } else {
     console.log(`No data`);
+  }
+}
+
+// update doc
+export async function updateNoteHandler(docId, data){
+  let uid = auth.currentUser.uid
+
+  const docRef = doc(db, uid, docId)
+  try {
+    await updateDoc(docRef, {
+      title : data.title,
+      content : data.content,
+      date : `(edited) ${Date()}`
+    })
+    alert("Updated")
+  } catch (err) {
+    console.log("Update",err);
+    alert("Couldn't update")
   }
 }
