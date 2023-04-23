@@ -33,6 +33,7 @@ export const auth = getAuth();
 export const signInWithGooglePopUp = async () => {
   try {
     const result = await signInWithPopup(auth, googleProvider);
+    window.location.reload();
     return result;
   } catch (error) {
     console.log(error);
@@ -43,6 +44,7 @@ export const signInWithGooglePopUp = async () => {
 
 export const signOutUser = async () => {
   await signOut(auth);
+  window.location.reload();
 }
 
 //Auth State Observer
@@ -70,6 +72,7 @@ export async function writeDataHandler(data){
       date : Date()
     })
     console.log("Document created with docRef "+ docRef);
+    getDataHandler();
   } catch(error) {
     console.log("Error adding document, "+ error);
   }

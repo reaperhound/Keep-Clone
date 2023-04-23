@@ -6,9 +6,9 @@ import { NotesContext } from "../../context/notes.context";
 
 
 const InputBox = ({ ...otherProps }) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit,reset } = useForm();
   const [titleVisible, setTitleVisible] = useState(false);
-  const { notes ,setNotes } = useContext(NotesContext)
+  const {refetchNotes, setrefetchNotes } = useContext(NotesContext)
 
   function formSubmit(e){
     e.preventDefault()
@@ -17,6 +17,8 @@ const InputBox = ({ ...otherProps }) => {
   const onBtnSubmitHandler = (data) => {
     console.log(data);
     writeDataHandler(data);
+    reset();
+    !refetchNotes && setrefetchNotes(true);
   }
 
   const handleFocusOut = (event) => {
@@ -28,9 +30,6 @@ const InputBox = ({ ...otherProps }) => {
 
   const output = async () => {
     const data = await getDataHandler();
-    // console.log(data);
-    // setNotes(data)
-    // console.log("Input",notes);
   }
 
   return (

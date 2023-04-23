@@ -6,9 +6,15 @@ export const NotesContext = createContext();
 
 export function NotesProvider({ children }) {
   const [notes, setNotes] = useState(null);
+  const [popUp, setPopUp] = useState(false)
+  const [refetchNotes, setrefetchNotes] = useState(false);
   const values = {
     notes,
     setNotes,
+    popUp,
+    setPopUp,
+    refetchNotes,
+    setrefetchNotes
   };
 
   useEffect(() => {
@@ -19,9 +25,10 @@ export function NotesProvider({ children }) {
 
     const delay = 3000; // Delay in milliseconds
     const timeoutId = setTimeout(fetchData, delay);
+    refetchNotes && setrefetchNotes(false)
 
     return () => clearTimeout(timeoutId)
-  },[])
+  },[refetchNotes])
 
   
   return (
