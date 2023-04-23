@@ -10,11 +10,10 @@ export default function NoteList() {
 
   return (
     <div 
-    className={`flex gap-5 p-[100px] flex-wrap`} >
+    className={`flex gap-5 p-[100px] flex-wrap justify-center `} >
       {notes == null ? (
         <div
-          className={`mx-auto`}>
-          {/* <ClimbingBoxLoader className="mx-auto" color="#a4cbb4" /> */}
+          className={``}>
           <Space size={"middle"}>
             <ConfigProvider 
             theme={{

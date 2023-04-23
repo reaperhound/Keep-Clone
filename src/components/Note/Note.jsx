@@ -27,9 +27,9 @@ export default function Note({ title, content, docIdArray }) {
   function PopUp() {
     console.log(register("title"));
     return (
-      <div className="modal-box fixed top-[20%] right-[35%] h-[400px] resize-none ">
+      <div className="modal-box fixed sm:top-[30%] sm:left-[34%] sm:h-[400px] h-[300px] inset-6 top-[250px]  resize-none ">
         <form onSubmit={(e) => e.preventDefault()}>
-          <div className="h-[380px]">
+          <div className="">
             <button
               onClick={handleClosePopUp}
               className="btn btn-sm btn-circle absolute right-2 top-2"

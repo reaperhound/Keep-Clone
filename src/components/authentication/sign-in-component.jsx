@@ -18,12 +18,12 @@ const SignInForm = () => {
   return (
     <div className="">
       {userVerified ? (
-        <button className="btn btn-active btn-primary min-w-[100px]" onClick={signOutUser}>
+        <button className="btn btn-active btn-primary sm:text-[16px] sm:min-w-[100px] w-[60px] text-[10px] p-[1px]" onClick={signOutUser}>
           Sign Out
         </button>
       ) : (
         <button
-          className="btn btn-active btn-secondary min-w-[100px]"
+          className="btn btn-active btn-secondary sm:text-[16px] sm:min-w-[100px] w-[60px] text-[10px] p-[1px]"
           onClick={onClickHandler}
         >
           Sign In
