@@ -18,7 +18,7 @@ A simple note-taking web application built using ReactJS. Users can create, edit
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/reaperhound/note-taking-app.git`
+1. Clone the repository: `git clone https://github.com/reaperhound/Keep-Clone.git`
 2. Navigate to the project directory: `cd note-taking-app`
 3. Install dependencies: `npm install`
 4. Set up Firebase: Create a new Firebase project, and enable Authentication and FireStore Database.
